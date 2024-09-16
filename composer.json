@@ -1,0 +1,23 @@
+{
+    "name": "albertgarcia/appsalon",
+    "description": "proyecto de php mvc y javascript",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "./",
+            "Model\\": "./models/",
+            "Controllers\\": "./controllers/",
+            "Classes\\": "./classes/",
+            "Middleware\\" : "./middleware/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AlbertGarciaHD",
+            "email": "84160520+AlbertGarciaHD@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
