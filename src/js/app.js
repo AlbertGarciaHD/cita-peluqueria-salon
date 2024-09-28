@@ -7,6 +7,7 @@ const citas = {
     fecha: "",
     hora: "",
     servicios: [],
+    idServicios: []
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -61,6 +62,11 @@ function mostrarSession() {
 function  paginador() {
     const pagSig = document.querySelector("#siguiente");
     const pagAnt = document.querySelector("#anterior");
+    const btnReservar =  document.querySelector("#boton-reservar");
+
+    if(btnReservar && paso != 3 ){
+        btnReservar.remove();
+    }
 
     if( paso === 1 ) {
         pagAnt.classList.add("ocultar-btn");
@@ -260,11 +266,80 @@ function mostrarResumen() {
     resumen.appendChild(resumenNombre);
 
     const resumenFecha = document.createElement("P");
-    resumenFecha.innerHTML = `<span>Fecha: </span>${fecha}`;
+    resumenFecha.innerHTML = `<span>Fecha: </span>${formatearFecha( fecha ) }`;
     resumen.appendChild(resumenFecha);
 
     const resumenHora = document.createElement("P");
     resumenHora.innerHTML = `<span>Hora: </span>${hora}`;
     resumen.appendChild(resumenHora);
+
+    const botonReservar = document.createElement("BUTTON");
+    botonReservar.classList.add("button");
+    botonReservar.id = 'boton-reservar'
+    botonReservar.textContent = "Reservar";
+    botonReservar.onclick = reservarCita;
+    // resumen.appendChild(botonReservar);
+    const paginacion = document.querySelector(".paginacion");
+    paginacion.appendChild(botonReservar);
+}
+
+function formatearFecha( fecha ) {
+    const fechaNueva = new Date(fecha);
+    const opciones = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    }
+    return fechaNueva.toLocaleDateString("es-ES", opciones);
+}
+
+async function reservarCita() {
+    const datos = new FormData();
+    citas.idServicios = citas.servicios.map( servicio => servicio.id );
+    
+    datos.append("nombre", citas.nombre );
+    datos.append("fecha", citas.fecha );
+    datos.append("hora", citas.hora );
+    datos.append("servicios", citas.idServicios );
+
+    try {
+    
+        const url = "http://localhost:8082/api/citas";
+
+        $resultado = await fetch(url, {
+            method: "POST",
+            body: datos
+        });
+
+        resultado = await $resultado.json();
+
+        if( resultado.cod && resultado.cod === '00'){
+            Swal.fire({
+                icon: "success",
+                title: "Cita Creada",
+                text: "Tu cita ha sido creada correctamente",
+                button: "Ok"
+            }).then(() => {
+                window.location.reload();
+            });
+
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Hubo un error al crear la cita",
+                button: "Ok"
+            });
+        }
+        console.log(resultado);
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Hubo un error al crear la cita",
+            button: "Ok"
+        });
+    }
 
 }

@@ -1,6 +1,11 @@
 <h1 class="nombre-pagina">Crear Nueva Cita</h1>
 <p class="descripcion-pagina">Elige tu servicio a continuacion.</p>
 
+<div class="barra">
+    <p>Hola <span><?= $_SESSION['nombre'] . ' ' . $_SESSION['apellido'] ?></span></p>
+
+    <a href="/logout" class="button cerrar-sesion">Cerrar Sesion</a>
+</div>
 <?php include_once __DIR__ . '/../templates/alertas.php'; ?>
 
 <div class="app">
@@ -51,4 +56,8 @@
     </div>
 </div>
 
-<?php $script = '<script src="build/js/app.js"></script>';?>
+<?php 
+    $script = '
+        <script src="build/js/app.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+?>

@@ -14,6 +14,8 @@ function s($html) : string {
 }
 
 // Verifica que el usuario esté autenticado antes de permitirle acceder a ciertas rutas
-function isAuthenticated() {
-    return $_SESSION['login'] ?? false;
+function isAuth() : void {
+    if( !$_SESSION['login'] ) {
+        header('Location: /');
+    }
 }

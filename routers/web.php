@@ -1,8 +1,8 @@
 <?php
 
-use Controllers\APIController;
-use Controllers\CitaController;
-use MVC\Router;
+    use Controllers\APIController;
+    use Controllers\CitaController;
+    use MVC\Router;
     use Controllers\LoginController;
 
     // Instancia del router
@@ -40,6 +40,7 @@ use MVC\Router;
 
     //Api de citas
     $router->get('/api/servicios', [APIController::class, 'index']);
+    $router->post('/api/citas', [APIController::class, 'guardar']);
     // $router->post('/api/citas', [APIController::class, 'guardar']);
 
     // Comprueba y valida las rutas definidas
